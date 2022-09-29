@@ -15,11 +15,10 @@ public struct AsyncModelView<Success, Content: View>: View {
             reloadAction: { Task { await model.load() } },
             content: content
         )
-        .task {
-            await model.loadIfNeeded()
-        }
-        .refreshable {
-            await model.load()
+        .onAppear {
+            Task {
+                await model.loadIfNeeded()
+            }
         }
     }
 }
